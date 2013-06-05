@@ -53,24 +53,24 @@ module ActiveMerchant
       end
 
 
-      def generate_link(amount, params_array=[], firstname = "", lastname = "", email = "", ip = "", chanel = nil, desc = nil)
-        params_to_s = params_array.join('-')
+      def generate_link(amount, opts = {})
         link = "#{BASE_PAYU_URL}UTF/NewPayment?"
         {
-          :first_name => firstname,
-          :last_name => lastname,
-          :email => email,
+          :first_name => opts[:firstname],
+          :last_name => opts[:lastname],
+          :email => opts[:email],
           :pos_id => @options[:pos_id],
           :pos_auth_key => @options[:pos_auth_key],
           :amount => amount*100,
-          :session_id => params_to_s + "-" + Digest::MD5.hexdigest(params_to_s + @options[:key1]).to_s,
-          :client_ip => ip,
+          :session_id => opts[:session_id],
+          :client_ip => opts[:ip],
           :js => 1,
-          :desc => desc || @options[:default_desc]
+          :desc => opts[:desc] || @options[:default_desc],
+          :order_id => opts[:order_id]
         }.each do |k,v|
           link << "#{k}=#{v}&"
         end
-        link << "#{:pay_type}=#{chanel}&" if chanel
+        link << "&#{:pay_type}=#{opts[:channel]}" if opts[:channel]
         URI.encode(link)
       end
 
