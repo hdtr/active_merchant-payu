@@ -12,5 +12,5 @@ Gem::Specification.new do |s|
   s.rubyforge_project = "active_merchant-payu"
   s.files         = `git ls-files`.split("\n")
   s.require_paths = ["lib"]
-  s.add_dependency("activemerchant", "~> 1.43.0")
+  s.add_dependency("activemerchant", "~> 1.42.2")
 end
